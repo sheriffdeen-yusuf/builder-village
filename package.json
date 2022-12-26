@@ -1,0 +1,33 @@
+{
+  "name": "backend_builder-vilage",
+  "version": "1.0.0",
+  "description": "API design with Node and Sequlize using MVC architecture",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npx nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/QT-Solution-Services/Backend_builder-vilage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QT-Solution-Services/Backend_builder-vilage/issues"
+  },
+  "homepage": "https://github.com/QT-Solution-Services/Backend_builder-vilage#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": ">=5.0.0-beta.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.28.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
