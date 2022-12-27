@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import router from "./routes/vendorRoutes.js";
 
 const app = express();
 const corsOption = {
@@ -12,10 +13,11 @@ app.use(cors(corsOption));
 app.use(express.json());
 
 // App Routes
+app.use("/api/vendors", router);
 
 // Test API routing
 app.get("/test", (req, res) => {
-  res.status(200).send("Test route is working fine");
+  res.status(200).send("Builder Vilage Test route is working fine");
 });
 
 // Handling Errors
