@@ -31,9 +31,9 @@ import vendorModel from "./vendors.js";
 import ClientModel from "./clients.js";
 import userLoginModel from "./userLogin.js";
 
-db.vendor = vendorModel(sequelize, DataTypes);
-db.client = ClientModel(sequelize, DataTypes);
-db.userLogin = userLoginModel(sequelize, DataTypes);
+db.vendors = vendorModel(sequelize, DataTypes);
+db.clients = ClientModel(sequelize, DataTypes);
+db.usersLogin = userLoginModel(sequelize, DataTypes);
 
 db.sequelize
   .sync({ alter: true })

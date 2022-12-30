@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 
-const Vendor = db.vendor;
+const Vendor = db.vendors;
 
 const get_all_vendor = async (req, res) => {
   const vendors = await Vendor.findAll({});

@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import router from "./routes/vendorRoutes.js";
+import vendorRouter from "./routes/vendorRoutes.js";
+import clientRouter from "./routes/clientRoutes.js";
 
 const app = express();
 const corsOption = {
@@ -13,7 +14,8 @@ app.use(cors(corsOption));
 app.use(express.json());
 
 // App Routes
-app.use("/api/vendors", router);
+app.use("/api/vendors", vendorRouter);
+app.use("/api/clients", clientRouter);
 
 // Test API routing
 app.get("/test", (req, res) => {
