@@ -6,11 +6,15 @@ import {
   delete_vendor,
   get_coperate_account,
   get_personal_account,
+  addLogin,
 } from "../controllers/vendorControllers.js";
 
 import { Router } from "express";
 
 const router = Router();
+
+// prototype admin login
+router.post("/login", addLogin);
 
 router.post("/addVendor", add_vendor);
 

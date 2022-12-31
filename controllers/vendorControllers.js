@@ -1,6 +1,16 @@
 import db from "../models/index.js";
+import jwt from "jsonwebtoken";
 
 const Vendor = db.vendors;
+
+// this is a prototype Admin login
+const addLogin = (req, res) => {
+  const admin = { name: "admin", email: "admin@gmail.com" };
+  jwt.sign(admin, "secretkey", { expiresIn: "2m" }, (err, token) => {
+    if (err) return res.send(err);
+    res.status(200).send(token);
+  });
+};
 
 const get_all_vendor = async (req, res) => {
   const vendors = await Vendor.findAll({});
@@ -63,4 +73,5 @@ export {
   delete_vendor,
   get_coperate_account,
   get_personal_account,
+  addLogin,
 };

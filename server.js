@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import vendorRouter from "./routes/vendorRoutes.js";
 import clientRouter from "./routes/clientRoutes.js";
+import adminRouter from "./routes/adminRoute.js";
+import { verifyToken } from "./middleware/jwtAuthorization.js";
 
 const app = express();
 const corsOption = {
@@ -14,8 +16,13 @@ app.use(cors(corsOption));
 app.use(express.json());
 
 // App Routes
-app.use("/api/vendors", vendorRouter);
+
+app.use("/api/vendors", verifyToken, vendorRouter);
 app.use("/api/clients", clientRouter);
+
+// Handling Authentication for vendorRouter
+// Handling Auth
+app.use("/api/auth", adminRouter);
 
 // Test API routing
 app.get("/test", (req, res) => {

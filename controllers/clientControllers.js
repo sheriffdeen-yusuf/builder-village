@@ -1,5 +1,4 @@
 import db from "../models/index.js";
-
 const Client = db.clients;
 
 // Add clients
