@@ -3,7 +3,13 @@ import cors from "cors";
 import vendorRouter from "./routes/vendorRoutes.js";
 import clientRouter from "./routes/clientRoutes.js";
 import adminRouter from "./routes/adminRoute.js";
+
+// Authentication import
 import { verifyToken } from "./middleware/jwtAuthorization.js";
+
+// Image handling Import
+import path from "path";
+import multer from "multer";
 
 const app = express();
 const corsOption = {
@@ -16,9 +22,12 @@ app.use(cors(corsOption));
 app.use(express.json());
 
 // App Routes
-
 app.use("/api/vendors", verifyToken, vendorRouter);
 app.use("/api/clients", clientRouter);
+
+// static folder
+
+app.use("/profile", express.static("images"));
 
 // Handling Authentication for vendorRouter
 // Handling Auth

@@ -1,4 +1,7 @@
 import db from "../models/index.js";
+import path from "path";
+import multer from "multer";
+
 const Client = db.clients;
 
 // Add clients
@@ -8,9 +11,13 @@ const add_client = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     gender: req.body.gender,
+    image: req.file.fieldname,
   };
   const client = await Client.create(info);
-  res.status(200).send(client);
+  res.status(200).json({
+    info,
+    image: `http://localhost:8080/profile/${req.file.filename}`,
+  });
 };
 
 const get_all_client = async (req, res) => {
@@ -36,10 +43,38 @@ const delete_client = async (req, res) => {
   res.status(200).send("client deleted successfully");
 };
 
+// Uploading Image
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: "2000000",
+  fileFilter: (req, file, cb) => {
+    const fileType = /jpeg|jpg|png|gif/;
+    const mimeType = fileType.test(file.mimetype);
+    const extName = fileType.test(path.extname(file.originalname));
+
+    if (mimeType && extName) return cb(null, true);
+    cb("Please provide proper file type");
+  },
+}).single("profile");
+
 export {
   add_client,
   get_all_client,
   delete_client,
   update_client,
   get_single_client,
+  upload,
 };

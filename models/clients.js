@@ -12,6 +12,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: "not disclose",
     },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
   return clients;

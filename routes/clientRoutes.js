@@ -4,13 +4,14 @@ import {
   delete_client,
   update_client,
   get_single_client,
+  upload,
 } from "../controllers/clientControllers.js";
 
 import express from "express";
 
 const router = express.Router();
 
-router.post("/addClient", add_client);
+router.post("/addClient", upload, add_client);
 router.get("/getClients", get_all_client);
 router.get("/:id", get_single_client);
 router.put("/:id", update_client);
