@@ -4,8 +4,10 @@ import jwt from "jsonwebtoken";
 const Admin = db.adminLogin;
 
 // task 1
-const loginAdmin = (req, res) => {
+const loginAdmin = async (req, res) => {
+  // Admin send post req
   const admin = { name: "admin", email: "admin@gmail.com" };
+
   // Generating token for this admin
   jwt.sign(admin, "secretkey", { expiresIn: "2m" }, (err, token) => {
     if (err) res.send(err);

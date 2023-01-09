@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 import path from "path";
 import multer from "multer";
+import bcrypt from "bcrypt";
 
 const Client = db.clients;
 
@@ -12,7 +13,15 @@ const add_client = async (req, res) => {
     email: req.body.email,
     gender: req.body.gender,
     image: req.file.fieldname,
+    password: req.body.password,
   };
+
+  const foundClient = await Client.findOne({ where: { email: info.email } });
+  if (!foundClient) res.sendStatus(409); //confilct
+
+  const hashedPassword = await bcrypt.hash(info.password, 10);
+  info.password = hashedPassword;
+
   const client = await Client.create(info);
   res.status(200).json({
     info,

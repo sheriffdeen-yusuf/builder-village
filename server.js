@@ -3,6 +3,7 @@ import cors from "cors";
 import vendorRouter from "./routes/vendorRoutes.js";
 import clientRouter from "./routes/clientRoutes.js";
 import adminRouter from "./routes/adminRoute.js";
+import authRouter from "./routes/authRoutes.js";
 
 // Authentication import
 import { verifyToken } from "./middleware/jwtAuthorization.js";
@@ -26,12 +27,12 @@ app.use("/api/vendors", verifyToken, vendorRouter);
 app.use("/api/clients", clientRouter);
 
 // static folder
-
 app.use("/profile", express.static("images"));
 
 // Handling Authentication for vendorRouter
 // Handling Auth
 app.use("/api/auth", adminRouter);
+app.use("/auth/client", authRouter);
 
 // Test API routing
 app.get("/test", (req, res) => {
