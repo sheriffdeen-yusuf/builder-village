@@ -17,7 +17,7 @@ const add_client = async (req, res) => {
   };
 
   const foundClient = await Client.findOne({ where: { email: info.email } });
-  if (!foundClient) res.sendStatus(409); //confilct
+  if (foundClient) res.sendStatus(409); //confilct
 
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;
