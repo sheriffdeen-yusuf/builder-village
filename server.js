@@ -35,7 +35,7 @@ app.use("/api/clients", verifyjwt, clientRouter);
 app.use("/api/admins", verifyjwt, adminRouter);
 
 // static folder
-app.use("/profile", express.static("images")); //for Clients
+app.use("/client/profile", express.static("images/client")); //for Clients
 app.use("/admin/profile", express.static("images/admin")); //for Admins
 
 // Handling Authentication for vendorRouter

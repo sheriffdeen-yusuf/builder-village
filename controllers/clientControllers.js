@@ -56,7 +56,7 @@ const delete_client = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "images");
+    cb(null, "images/client");
   },
   filename: (req, file, cb) => {
     cb(
