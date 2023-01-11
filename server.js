@@ -1,12 +1,15 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import vendorRouter from "./routes/vendorRoutes.js";
 import clientRouter from "./routes/clientRoutes.js";
 import adminRouter from "./routes/adminRoute.js";
 import authRouter from "./routes/authRoutes.js";
 
 // Authentication import
-import { verifyToken } from "./middleware/jwtAuthorization.js";
+import { verifyjwt } from "./middleware/verifyJWT.js";
+import refreshRouter from "./routes/refreshRoutes.js";
+import logoutRouter from "./routes/logoutRoutes.js";
 
 // Image handling Import
 import path from "path";
@@ -20,11 +23,12 @@ const corsOption = {
 
 // Middlewares
 app.use(cors(corsOption));
+app.use(cookieParser());
 app.use(express.json());
 
 // App Routes
-app.use("/api/vendors", verifyToken, vendorRouter);
-app.use("/api/clients", clientRouter);
+app.use("/api/vendors", vendorRouter);
+app.use("/api/clients", verifyjwt, clientRouter);
 
 // static folder
 app.use("/profile", express.static("images"));
@@ -33,6 +37,8 @@ app.use("/profile", express.static("images"));
 // Handling Auth
 app.use("/api/auth", adminRouter);
 app.use("/auth/client", authRouter);
+app.use("/auth/refresh/", refreshRouter);
+app.use("/logout", logoutRouter);
 
 // Test API routing
 app.get("/test", (req, res) => {
