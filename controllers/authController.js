@@ -78,11 +78,11 @@ const handleAdminLogin = async (req, res) => {
     // saving refresh token for this client
     await Admin.update(
       { refreshToken: refreshtoken },
-      { where: { id: foundClient.id } }
+      { where: { id: foundAdmin.id } }
     );
 
     res.status(200).json({ accesstoken });
-    // res.status(200).send(`Login ${foundClient.username} SUCESS`);
+    // res.status(200).send(`Login ${foundAdmin.username} SUCESS`);
   } else {
     res.status(403).send("incorrect Password or username");
   }

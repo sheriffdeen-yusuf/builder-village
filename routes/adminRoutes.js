@@ -12,7 +12,7 @@ import express from "express";
 const router = express.Router();
 
 router.post("/addAdmin", upload, add_admin);
-router.get("/getAdmina", get_all_admin);
+router.get("/getAdmins", get_all_admin);
 router.get("/:id", get_single_admin);
 router.put("/:id", update_admin);
 router.delete("/:id", delete_admin);

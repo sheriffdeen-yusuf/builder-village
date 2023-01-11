@@ -32,19 +32,18 @@ app.use(express.json());
 // App Routes
 app.use("/api/vendors", vendorRouter);
 app.use("/api/clients", verifyjwt, clientRouter);
-app.use("/api/admins", adminRouter);
+app.use("/api/admins", verifyjwt, adminRouter);
 
 // static folder
 app.use("/profile", express.static("images")); //for Clients
-app.use("/admin/profile", express.static("images/admin")); //for Clients
+app.use("/admin/profile", express.static("images/admin")); //for Admins
 
 // Handling Authentication for vendorRouter
 // Handling Auth
-app.use("/auth/login/", authRouter); //for client -> /auth/login/client
-app.use("/auth/login/", authRouter); //for admin -> /auth/login/admin
+app.use("/auth/login/", authRouter); //for client and admin -> /auth/login/client -> /auth/login/admin
 
-app.use("/auth/refresh/", refreshRouter);
-app.use("/logout", logoutRouter);
+app.use("/auth/refresh/", refreshRouter); //for client and admin -> /auth/refresh/client /auth/refresh/admin
+app.use("/logout", logoutRouter); //for client and admin ->  /client/logout /admin/logout
 
 // Test API routing
 app.get("/test", (req, res) => {
