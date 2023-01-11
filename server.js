@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import vendorRouter from "./routes/vendorRoutes.js";
 import clientRouter from "./routes/clientRoutes.js";
-import adminRouter from "./routes/adminRoute.js";
+import adminRouter from "./routes/adminRoutes.js";
 import authRouter from "./routes/authRoutes.js";
 
 // Authentication import
@@ -14,6 +14,9 @@ import logoutRouter from "./routes/logoutRoutes.js";
 // Image handling Import
 import path from "path";
 import multer from "multer";
+import dotenv from "dotenv";
+dotenv.config();
+const PORT = process.env.PORT;
 
 const app = express();
 const corsOption = {
@@ -29,14 +32,17 @@ app.use(express.json());
 // App Routes
 app.use("/api/vendors", vendorRouter);
 app.use("/api/clients", verifyjwt, clientRouter);
+app.use("/api/admins", adminRouter);
 
 // static folder
-app.use("/profile", express.static("images"));
+app.use("/profile", express.static("images")); //for Clients
+app.use("/admin/profile", express.static("images/admin")); //for Clients
 
 // Handling Authentication for vendorRouter
 // Handling Auth
-app.use("/api/auth", adminRouter);
-app.use("/auth/client", authRouter);
+app.use("/auth/login/", authRouter); //for client -> /auth/login/client
+app.use("/auth/login/", authRouter); //for admin -> /auth/login/admin
+
 app.use("/auth/refresh/", refreshRouter);
 app.use("/logout", logoutRouter);
 
@@ -53,6 +59,6 @@ app.use((err, req, res, next) => {
 });
 
 // Listening
-app.listen(8080, () => {
-  console.log("Server is runing on port 8080");
+app.listen(PORT, () => {
+  console.log(`Server is runing on port ${PORT}`);
 });

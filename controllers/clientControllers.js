@@ -24,7 +24,7 @@ const add_client = async (req, res) => {
 
   const client = await Client.create(info);
   res.status(200).json({
-    info,
+    client,
     image: `http://localhost:8080/profile/${req.file.filename}`,
   });
 };
