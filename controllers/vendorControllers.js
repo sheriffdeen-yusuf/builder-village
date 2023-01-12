@@ -1,16 +1,9 @@
 import db from "../models/index.js";
-import jwt from "jsonwebtoken";
+import path from "path";
+import multer from "multer";
+import bcrypt from "bcrypt";
 
 const Vendor = db.vendors;
-
-// this is a prototype Admin login
-const addLogin = (req, res) => {
-  const admin = { name: "admin", email: "admin@gmail.com" };
-  jwt.sign(admin, "secretkey", { expiresIn: "2m" }, (err, token) => {
-    if (err) return res.send(err);
-    res.status(200).send(token);
-  });
-};
 
 const get_all_vendor = async (req, res) => {
   const vendors = await Vendor.findAll({});
@@ -34,11 +27,21 @@ const add_vendor = async (req, res) => {
     phone: req.body.phone,
     state: req.body.state,
     lga: req.body.lga,
+    image: req.file.fieldname,
+    password: req.body.password,
   };
 
-  const vendor = await Vendor.create(info);
+  const duplicate = await Vendor.findOne({ where: { email: info.email } });
+  if (duplicate) res.sendStatus(409); //confilct
 
-  res.status(200).send(vendor);
+  const hashedPassword = await bcrypt.hash(info.password, 10);
+  info.password = hashedPassword;
+
+  const vendor = await Vendor.create(info);
+  res.status(200).json({
+    vendor,
+    image: `http://localhost:8080/vendor/profile/${req.file.filename}`,
+  });
 };
 
 const update_vendor = async (req, res) => {
@@ -65,6 +68,33 @@ const get_coperate_account = async (req, res) => {
   res.status(200).send(vendors);
 };
 
+// Uploading Image
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "images/vendor");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: "2000000",
+  fileFilter: (req, file, cb) => {
+    const fileType = /jpeg|jpg|png|gif/;
+    const mimeType = fileType.test(file.mimetype);
+    const extName = fileType.test(path.extname(file.originalname));
+
+    if (mimeType && extName) return cb(null, true);
+    cb("Please provide proper file type");
+  },
+}).single("vdProfile");
+
 export {
   get_all_vendor,
   get_single_Vendor,
@@ -73,5 +103,5 @@ export {
   delete_vendor,
   get_coperate_account,
   get_personal_account,
-  addLogin,
+  upload,
 };

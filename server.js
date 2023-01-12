@@ -30,20 +30,22 @@ app.use(cookieParser());
 app.use(express.json());
 
 // App Routes
-app.use("/api/vendors", vendorRouter);
+app.use("/api/vendors", verifyjwt, vendorRouter);
 app.use("/api/clients", verifyjwt, clientRouter);
 app.use("/api/admins", verifyjwt, adminRouter);
 
 // static folder
 app.use("/client/profile", express.static("images/client")); //for Clients
 app.use("/admin/profile", express.static("images/admin")); //for Admins
+app.use("/vendor/profile", express.static("images/vendor")); //for Vendors
 
 // Handling Authentication for vendorRouter
 // Handling Auth
 app.use("/auth/login/", authRouter); //for client and admin -> /auth/login/client -> /auth/login/admin
+app.use("/auth/login/", authRouter); //for vendor, still same base route, /auth/login/vendor
 
-app.use("/auth/refresh/", refreshRouter); //for client and admin -> /auth/refresh/client /auth/refresh/admin
-app.use("/logout", logoutRouter); //for client and admin ->  /client/logout /admin/logout
+app.use("/auth/refresh/", refreshRouter); //for client, admin & vendor-> /auth/refresh/{client | admin |vendor}
+app.use("/logout", logoutRouter); //for client, admin & vendor->  {client | admin |vendor}/logout
 
 // Test API routing
 app.get("/test", (req, res) => {

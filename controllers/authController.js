@@ -9,6 +9,7 @@ const REFRESH_TOKEN = process.env.REFRESH_TOKEN_SECRET;
 
 const Client = db.clients;
 const Admin = db.admins;
+const Vendor = db.vendors;
 
 // Handle Client Login
 const handleClientLogin = async (req, res) => {
@@ -88,4 +89,42 @@ const handleAdminLogin = async (req, res) => {
   }
 };
 
-export { handleClientLogin, handleAdminLogin };
+// Handle Vendor Login
+const handleVendorLogin = async (req, res) => {
+  const { password, email } = req.body;
+  // check if client exist
+  const foundVendor = await Vendor.findOne({ where: { email: email } });
+  if (!foundVendor) res.sendStatus(401); //unAuthorized
+
+  const match = await bcrypt.compare(password, foundVendor.password);
+  if (match) {
+    const vendor = {
+      id: foundVendor.id,
+      username: foundVendor.username,
+    };
+    // create token
+    const accesstoken = jwt.sign(vendor, ACCESS_TOKEN, { expiresIn: "40s" });
+    const refreshtoken = jwt.sign(vendor, REFRESH_TOKEN, { expiresIn: "40m" });
+    // setting refreshToken in httpOnly cookie
+    res.cookie("jwt", refreshtoken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1000,
+    });
+
+    const cookie = req.cookies;
+    if (!cookie?.jwt)
+      return res.status(403).send("Could not save refresh Token");
+    // saving refresh token for this client
+    await Vendor.update(
+      { refreshToken: refreshtoken },
+      { where: { id: foundVendor.id } }
+    );
+
+    res.status(200).json({ accesstoken });
+    // res.status(200).send(`Login ${foundAdmin.username} SUCESS`);
+  } else {
+    res.status(403).send("incorrect Password or username");
+  }
+};
+
+export { handleClientLogin, handleAdminLogin, handleVendorLogin };

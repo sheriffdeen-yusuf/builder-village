@@ -20,7 +20,7 @@ export default (sequelize, DataTypes) => {
     },
     nin: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      // allowNull: false,
     },
     ip_address: {
       type: DataTypes.STRING,
@@ -36,6 +36,18 @@ export default (sequelize, DataTypes) => {
     lga: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    refreshToken: {
+      type: DataTypes.STRING,
     },
   });
   return vendors;
