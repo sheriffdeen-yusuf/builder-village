@@ -37,9 +37,26 @@ const add_vendor = async (req, res) => {
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;
 
+  // Generating activation token for this user
+  const payload = {
+    username: info.username,
+    email: info.email,
+  };
+
+  const activatetoken = jwt.sign(
+    payload,
+    process.env.ACCOUNT_ACTIVATION_TOKEN,
+    {
+      expiresIn: "20m",
+    }
+  );
+
+  // sending mail to user
+  emailService(activatetoken, info.username);
+
   const vendor = await Vendor.create(info);
   res.status(200).json({
-    vendor,
+    message: "SignUp Success, Check your email to acctivate your account!",
     image: `http://localhost:8080/vendor/profile/${req.file.filename}`,
   });
 };

@@ -6,15 +6,16 @@ import {
   get_single_client,
   upload,
 } from "../controllers/clientControllers.js";
+import { verifyjwt } from "../middleware/verifyJWT.js";
 
 import express from "express";
 
 const router = express.Router();
 
-router.post("/addClient", upload, add_client);
-router.get("/getClients", get_all_client);
-router.get("/:id", get_single_client);
-router.put("/:id", update_client);
-router.delete("/:id", delete_client);
+router.post("/addClient", upload, add_client); // Signup is unprotected route, normal
+router.get("/getClients", verifyjwt, get_all_client);
+router.get("/:id", verifyjwt, get_single_client);
+router.put("/:id", verifyjwt, update_client);
+router.delete("/:id", verifyjwt, delete_client);
 
 export default router;

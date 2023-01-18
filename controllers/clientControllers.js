@@ -42,7 +42,7 @@ const add_client = async (req, res) => {
 
   const client = await Client.create(info);
   res.status(200).json({
-    message: "A mail has been sent to you",
+    message: "SignUp Success, Check your email to acctivate your account!",
     image: `http://localhost:8080/profile/${req.file.filename}`,
   });
 };
