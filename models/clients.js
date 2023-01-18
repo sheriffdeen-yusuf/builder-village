@@ -16,6 +16,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    verify: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     password: {
       type: DataTypes.STRING,
       allowNull: false,

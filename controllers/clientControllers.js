@@ -2,11 +2,13 @@ import db from "../models/index.js";
 import path from "path";
 import multer from "multer";
 import bcrypt from "bcrypt";
+import Mailjet from "node-mailjet";
+import jwt from "jsonwebtoken";
+import emailService from "../services/emailService.js";
 
 const Client = db.clients;
 
-// Add clients
-
+// Add/ signup clients
 const add_client = async (req, res) => {
   let info = {
     username: req.body.username,
@@ -22,9 +24,25 @@ const add_client = async (req, res) => {
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;
 
+  const payload = {
+    username: info.username,
+    email: info.email,
+  };
+
+  const activatetoken = jwt.sign(
+    payload,
+    process.env.ACCOUNT_ACTIVATION_TOKEN,
+    {
+      expiresIn: "20m",
+    }
+  );
+
+  // sending mail to user
+  emailService(activatetoken, info.username);
+
   const client = await Client.create(info);
   res.status(200).json({
-    client,
+    message: "A mail has been sent to you",
     image: `http://localhost:8080/profile/${req.file.filename}`,
   });
 };
