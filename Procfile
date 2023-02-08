@@ -1,2 +1,2 @@
-web: node server.js
 ps:scale web=1
+web: node server.js
