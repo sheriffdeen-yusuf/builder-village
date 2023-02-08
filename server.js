@@ -52,7 +52,7 @@ app.use("/auth/refresh/", refreshRouter); //for client, admin & vendor-> /auth/r
 app.use("/logout", logoutRouter); //for client, admin & vendor->  {client | admin |vendor}/logout
 
 // Test API routing
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).send("Builder Vilage Test route is working fine");
 });
 

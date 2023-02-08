@@ -18,6 +18,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    verify: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     nin: {
       type: DataTypes.INTEGER,
       // allowNull: false,

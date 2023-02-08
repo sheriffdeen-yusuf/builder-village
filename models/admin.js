@@ -8,6 +8,10 @@ export default (sequelize, DataTypes) => {
       email: {
         type: DataTypes.TEXT,
       },
+      verify: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       password: {
         type: DataTypes.TEXT,
       },
