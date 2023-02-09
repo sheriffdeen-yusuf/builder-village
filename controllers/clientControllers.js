@@ -14,7 +14,7 @@ const add_client = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     gender: req.body.gender,
-    // image: req.file.fieldname,  temp remove for deployment purpose
+    // image: req.file.fieldname, // temp remove for deployment purpose
     password: req.body.password,
   };
 
@@ -43,7 +43,7 @@ const add_client = async (req, res) => {
   const client = await Client.create(info);
   res.status(200).json({
     message: "SignUp Success, Check your email to acctivate your account!",
-    image: `http://localhost:8080/profile/${req.file.filename}`,
+    // image: `http://localhost:8080/profile/${req.file.filename}`,
   });
 };
 
