@@ -12,7 +12,8 @@ import express from "express";
 
 const router = express.Router();
 
-router.post("/addClient", upload, add_client); // Signup is unprotected route, normal
+// router.post("/addClient", upload, add_client);  // Signup is unprotected route, normal
+router.post("/addClient", add_client); // testing cloud server
 router.get("/getClients", verifyjwt, get_all_client);
 router.get("/:id", verifyjwt, get_single_client);
 router.put("/:id", verifyjwt, update_client);
