@@ -14,7 +14,7 @@ const add_client = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     gender: req.body.gender,
-    image: req.file.fieldname,
+    // image: req.file.fieldname,  temp remove for deployment purpose
     password: req.body.password,
   };
 
