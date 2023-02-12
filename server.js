@@ -36,7 +36,7 @@ app.use("/api/clients", clientRouter);
 app.use("/api/admins", verifyjwt, adminRouter);
 
 // static folder
-app.use("/tmp/profiles", express.static("tmp")); //for serveless storage on cyclic
+app.use("/tmp/profiles", express.static("../../tmp")); //for serveless storage on cyclic
 app.use("/client/profile", express.static("images/client")); //for Clients
 app.use("/admin/profile", express.static("images/admin")); //for Admins
 app.use("/vendor/profile", express.static("images/vendor")); //for Vendors
