@@ -43,7 +43,7 @@ const add_client = async (req, res) => {
   const client = await Client.create(info);
   res.status(200).json({
     message: "SignUp Success, Check your email to acctivate your account!",
-    image: `http://localhost:8080/profile/${req.file.filename}`,
+    image: `http://localhost:8080/tmp/profiles/${req.file.filename}`,
   });
 };
 
@@ -74,7 +74,8 @@ const delete_client = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "images/client");
+    // cb(null, "images/client");
+    cb(null, "tmp");
   },
   filename: (req, file, cb) => {
     cb(
