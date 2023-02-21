@@ -19,7 +19,7 @@ const add_client = async (req, res) => {
   };
 
   const duplicate = await Client.findOne({ where: { email: info.email } });
-  if (duplicate) res.sendStatus(409); //confilct
+  if (duplicate) res.status(200).send("Email already registered"); //confilct
 
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;
@@ -74,8 +74,8 @@ const delete_client = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // cb(null, "images/client");
-    cb(null, "../../tmp");
+    cb(null, "images/client");
+    // cb(null, "../../tmp");  // for cyclic
   },
   filename: (req, file, cb) => {
     cb(
