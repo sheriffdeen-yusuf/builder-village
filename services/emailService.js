@@ -1,6 +1,6 @@
 import Mailjet from "node-mailjet";
 
-const emailService = async (activatetoken, username) => {
+const emailService = async (activatetoken, username, email) => {
   const mailjet = new Mailjet({
     apiKey: process.env.MJ_APIKEY_PUBLIC,
     apiSecret: process.env.MJ_APIKEY_PRIVATE,
@@ -17,7 +17,7 @@ const emailService = async (activatetoken, username) => {
           },
           To: [
             {
-              Email: "sheriffdeenyusuf1130@gmail.com",
+              Email: `${email}`,
               Name: "tech bro",
             },
           ],

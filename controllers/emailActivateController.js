@@ -23,7 +23,9 @@ const clientAccountActivation = async (req, res) => {
         );
         return res
           .status(200)
-          .send(`${decoded.username} Your account is now Activated`);
+          .send(
+            `${decoded.username} Your account is now Activated, Enjoy full services`
+          );
       } else return res.status(401).send("Something went wrong, Try later!");
     }
   );

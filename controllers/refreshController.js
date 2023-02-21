@@ -32,7 +32,9 @@ const clientRefreshToken = async (req, res) => {
     };
 
     const accesstoken = jwt.sign(client, ACCESS_TOKEN, { expiresIn: "40s" });
-    res.status(200).json({ accesstoken });
+    res
+      .status(200)
+      .json({ accesstoken, NB: "this only work if user is logged in" });
   });
 };
 

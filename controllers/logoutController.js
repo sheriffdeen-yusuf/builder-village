@@ -27,7 +27,7 @@ const handleClientLogout = (req, res) => {
     if (!foundClient) {
       // if cookie did exist but no user founf=d for it, clear anyways
       res.clearCookie("jwt", { httpOnly: true });
-      res.sendStatus(204);
+      return res.sendStatus(204);
     }
 
     // Otherwise since their a client for it, delete from d=DB then clear cookie

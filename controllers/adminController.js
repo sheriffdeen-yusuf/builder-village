@@ -16,7 +16,8 @@ const add_admin = async (req, res) => {
   };
 
   const duplicate = await Admin.findOne({ where: { email: info.email } });
-  if (duplicate) res.sendStatus(409); //confilct
+  if (duplicate)
+    return res.status(409).send("This email has alredy be register!"); //confilct
 
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;

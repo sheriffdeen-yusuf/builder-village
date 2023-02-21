@@ -16,7 +16,15 @@ const handleClientLogin = async (req, res) => {
   const { password, email } = req.body;
   // check if client exist
   const foundClient = await Client.findOne({ where: { email: email } });
-  if (!foundClient) res.sendStatus(401); //unAuthorized
+  if (!foundClient) {
+    return res.status(401).send("User does not exit!"); //unAuthorized
+  } else if (foundClient && !foundClient.verify) {
+    return res
+      .status(401)
+      .send(
+        "Please kindly check your mail. You cannot access your account, untill is activated"
+      );
+  }
 
   const match = await bcrypt.compare(password, foundClient.password);
   if (match) {
@@ -26,7 +34,7 @@ const handleClientLogin = async (req, res) => {
     };
 
     // create token
-    const accesstoken = jwt.sign(client, ACCESS_TOKEN, { expiresIn: "40s" });
+    const accesstoken = jwt.sign(client, ACCESS_TOKEN, { expiresIn: "1m" });
     const refreshtoken = jwt.sign(client, REFRESH_TOKEN, { expiresIn: "40m" });
 
     // setting refreshToken in httpOnly cookie
@@ -44,8 +52,11 @@ const handleClientLogin = async (req, res) => {
       { where: { id: foundClient.id } }
     );
 
-    res.status(200).json({ accesstoken });
-    // res.status(200).send(`Login ${foundClient.username} SUCESS`);
+    // res.status(200).json({ accesstoken });
+    res.status(200).json({
+      success: `Welcome back ${foundClient.username}`,
+      accesstoken,
+    });
   } else {
     res.status(403).send("incorrect Password or user");
   }
@@ -85,7 +96,7 @@ const handleAdminLogin = async (req, res) => {
     res.status(200).json({ accesstoken });
     // res.status(200).send(`Login ${foundAdmin.username} SUCESS`);
   } else {
-    res.status(403).send("incorrect Password or username");
+    return res.status(403).send("incorrect Password or username");
   }
 };
 

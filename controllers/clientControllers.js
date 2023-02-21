@@ -19,7 +19,7 @@ const add_client = async (req, res) => {
   };
 
   const duplicate = await Client.findOne({ where: { email: info.email } });
-  if (duplicate) res.status(200).send("Email already registered"); //confilct
+  if (duplicate) return res.status(200).send("Email already registered"); //confilct
 
   const hashedPassword = await bcrypt.hash(info.password, 10);
   info.password = hashedPassword;
@@ -33,16 +33,18 @@ const add_client = async (req, res) => {
     payload,
     process.env.ACCOUNT_ACTIVATION_TOKEN,
     {
-      expiresIn: "20m",
+      expiresIn: "24h",
     }
   );
 
   // sending mail to user
-  emailService(activatetoken, info.username);
+  emailService(activatetoken, info.username, info.email);
 
   const client = await Client.create(info);
   res.status(200).json({
-    message: "SignUp Success, Check your email to acctivate your account!",
+    message:
+      "SignUp Success, Check your email to acctivate your account!" +
+      "\n note: you cannot access your account untill is activated",
     image: `http://localhost:8080/tmp/profiles/${req.file.filename}`,
   });
 };
