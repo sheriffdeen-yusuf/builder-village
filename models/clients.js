@@ -18,11 +18,15 @@ export default (sequelize, DataTypes) => {
     },
     verify: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    resetLink: {
+      type: DataTypes.STRING,
+      defaultValue: "",
     },
     refreshToken: {
       type: DataTypes.STRING,

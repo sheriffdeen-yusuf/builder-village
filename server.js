@@ -49,6 +49,10 @@ app.use("/activate-account", emailActivateRouter);
 app.use("/auth/login/", authRouter); //for client and admin -> /auth/login/client -> /auth/login/admin
 app.use("/auth/login/", authRouter); //for vendor, still same base route, /auth/login/vendor
 
+// for password forget and reset
+app.use("/forget-password", authRouter); //for reset password
+app.use("/c", authRouter); //for reset password
+
 app.use("/auth/refresh/", refreshRouter); //for client, admin & vendor-> /auth/refresh/{client | admin |vendor}
 app.use("/logout", logoutRouter); //for client, admin & vendor->  {client | admin |vendor}/logout
 
